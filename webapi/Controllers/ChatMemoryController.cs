@@ -30,20 +30,24 @@ public class ChatMemoryController : ControllerBase
 
     private readonly ChatSessionRepository _chatSessionRepository;
 
+    private readonly IKernelMemory _memoryClient;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="ChatMemoryController"/> class.
     /// </summary>
     /// <param name="logger">The logger.</param>
     /// <param name="promptsOptions">The prompts options.</param>
     /// <param name="chatSessionRepository">The chat session repository.</param>
+    /// <param name="memoryClient"></param>
     public ChatMemoryController(
         ILogger<ChatMemoryController> logger,
         IOptions<PromptsOptions> promptsOptions,
-        ChatSessionRepository chatSessionRepository)
+        ChatSessionRepository chatSessionRepository, IKernelMemory memoryClient)
     {
         this._logger = logger;
         this._promptOptions = promptsOptions.Value;
         this._chatSessionRepository = chatSessionRepository;
+        _memoryClient = memoryClient;
     }
 
     /// <summary>
@@ -58,7 +62,6 @@ public class ChatMemoryController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [Authorize(Policy = AuthPolicyName.RequireChatParticipant)]
     public async Task<IActionResult> GetSemanticMemoriesAsync(
-        [FromServices] IKernelMemory memoryClient,
         [FromRoute] string chatId,
         [FromQuery] string type)
     {
@@ -93,11 +96,11 @@ public class ChatMemoryController : ControllerBase
             filter.ByTag("memory", memoryContainerName);
 
             var searchResult =
-                await memoryClient.SearchMemoryAsync(
+                await _memoryClient.SearchMemoryAsync(
                     this._promptOptions.MemoryIndexName,
                     "*",
                     relevanceThreshold: 0,
-                    resultCount: 1,
+                    resultCount: 100,
                     chatId,
                     memoryContainerName);
 

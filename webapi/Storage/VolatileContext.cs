@@ -5,6 +5,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using CopilotChat.WebApi.Models.Storage;
 
@@ -32,9 +33,9 @@ public class VolatileContext<T> : IStorageContext<T> where T : IStorageEntity
     }
 
     /// <inheritdoc/>
-    public Task<IEnumerable<T>> QueryEntitiesAsync(Func<T, bool> predicate)
+    public Task<IEnumerable<T>> QueryEntitiesAsync(Expression<Func<T, bool>> predicate)
     {
-        return Task.FromResult(this._entities.Values.Where(predicate));
+        return Task.FromResult(this._entities.Values.Where(predicate.Compile()));
     }
 
     /// <inheritdoc/>
@@ -104,10 +105,10 @@ public class VolatileContext<T> : IStorageContext<T> where T : IStorageEntity
 public class VolatileCopilotChatMessageContext : VolatileContext<CopilotChatMessage>, ICopilotChatMessageStorageContext
 {
     /// <inheritdoc/>
-    public Task<IEnumerable<CopilotChatMessage>> QueryEntitiesAsync(Func<CopilotChatMessage, bool> predicate, int skip, int count)
+    public Task<IEnumerable<CopilotChatMessage>> QueryEntitiesAsync(Expression<Func<CopilotChatMessage, bool>> predicate, int skip, int count)
     {
         return Task.Run<IEnumerable<CopilotChatMessage>>(
-                () => this._entities.Values
-                        .Where(predicate).OrderByDescending(m => m.Timestamp).Skip(skip).Take(count));
+            () => this._entities.Values
+                .Where(predicate.Compile()).OrderByDescending(m => m.Timestamp).Skip(skip).Take(count));
     }
 }

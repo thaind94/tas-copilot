@@ -1,13 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
     <RootNamespace>CopilotChat.WebApi</RootNamespace>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <RollForward>LatestMajor</RollForward>
     <LangVersion>10</LangVersion>
     <Nullable>enable</Nullable>
     <ImplicitUsings>disable</ImplicitUsings>
     <UserSecretsId>5ee045b0-aea3-4f08-8d31-32d1a6f8fed0</UserSecretsId>
-    <NoWarn>SKEXP0003,SKEXP0011,SKEXP0021,SKEXP0026,SKEXP0042,SKEXP0050,SKEXP0052,SKEXP0053,SKEXP0060</NoWarn>
+    <NoWarn>SKEXP0003,SKEXP0011,SKEXP0021,SKEXP0026,SKEXP0040,SKEXP0042,SKEXP0050,SKEXP0052,SKEXP0053,SKEXP0060</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -22,17 +22,19 @@
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.22.0" />
     <PackageReference Include="Microsoft.Azure.Cosmos" Version="3.38.1" />
     <PackageReference Include="Microsoft.Identity.Web" Version="2.17.1" />
-    <PackageReference Include="Microsoft.KernelMemory.Abstractions" Version="0.30.240227.1" />
-    <PackageReference Include="Microsoft.KernelMemory.Core" Version="0.30.240227.1" />
-    <PackageReference Include="Microsoft.SemanticKernel" Version="1.5.0" />
-    <PackageReference Include="Microsoft.SemanticKernel.Abstractions" Version="1.5.0" />
-    <PackageReference Include="Microsoft.SemanticKernel.Connectors.AzureAISearch" Version="1.5.0-alpha" />
-    <PackageReference Include="Microsoft.SemanticKernel.Connectors.Qdrant" Version="1.5.0-alpha" />
-    <PackageReference Include="Microsoft.SemanticKernel.Plugins.Core" Version="1.5.0-alpha" />
-    <PackageReference Include="Microsoft.SemanticKernel.Plugins.Memory" Version="1.5.0-alpha" />
-    <PackageReference Include="Microsoft.SemanticKernel.Plugins.MsGraph" Version="1.5.0-alpha" />
-    <PackageReference Include="Microsoft.SemanticKernel.Plugins.OpenApi" Version="1.5.0-alpha" />
-    <PackageReference Include="Microsoft.SemanticKernel.Plugins.Web" Version="1.5.0-alpha" />
+    <PackageReference Include="Microsoft.KernelMemory.Abstractions" Version="0.35.240318.2" />
+    <PackageReference Include="Microsoft.KernelMemory.Core" Version="0.35.240321.1" />
+    <PackageReference Include="Microsoft.SemanticKernel" Version="1.6.3" />
+    <PackageReference Include="Microsoft.SemanticKernel.Abstractions" Version="1.6.3" />
+    <PackageReference Include="Microsoft.SemanticKernel.Connectors.AzureAISearch" Version="1.6.3-alpha" />
+    <PackageReference Include="Microsoft.SemanticKernel.Connectors.Qdrant" Version="1.6.3-alpha" />
+    <PackageReference Include="Microsoft.SemanticKernel.Plugins.Core" Version="1.6.3-alpha" />
+    <PackageReference Include="Microsoft.SemanticKernel.Plugins.Memory" Version="1.6.3-alpha" />
+    <PackageReference Include="Microsoft.SemanticKernel.Plugins.MsGraph" Version="1.6.3-alpha" />
+    <PackageReference Include="Microsoft.SemanticKernel.Plugins.OpenApi" Version="1.6.3-alpha" />
+    <PackageReference Include="Microsoft.SemanticKernel.Plugins.Web" Version="1.6.3-alpha" />
+    <PackageReference Include="MongoDB.Driver" Version="2.24.0" />
+    <PackageReference Include="MySqlConnector" Version="2.3.6" />
     <PackageReference Include="SharpToken" Version="1.2.17" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>

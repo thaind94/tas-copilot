@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Net;
 using System.Threading.Tasks;
 using CopilotChat.WebApi.Models.Storage;
@@ -48,10 +49,10 @@ public class CosmosDbContext<T> : IStorageContext<T>, IDisposable where T : ISto
     }
 
     /// <inheritdoc/>
-    public async Task<IEnumerable<T>> QueryEntitiesAsync(Func<T, bool> predicate)
+    public async Task<IEnumerable<T>> QueryEntitiesAsync(Expression<Func<T, bool>> predicate)
     {
         return await Task.Run<IEnumerable<T>>(
-            () => this._container.GetItemLinqQueryable<T>(true).Where(predicate).AsEnumerable());
+            () => this._container.GetItemLinqQueryable<T>(true).Where(predicate.Compile()).AsEnumerable());
     }
 
     /// <inheritdoc/>
@@ -138,10 +139,10 @@ public class CosmosDbCopilotChatMessageContext : CosmosDbContext<CopilotChatMess
     }
 
     /// <inheritdoc/>
-    public Task<IEnumerable<CopilotChatMessage>> QueryEntitiesAsync(Func<CopilotChatMessage, bool> predicate, int skip, int count)
+    public Task<IEnumerable<CopilotChatMessage>> QueryEntitiesAsync(Expression<Func<CopilotChatMessage, bool>> predicate, int skip, int count)
     {
         return Task.Run<IEnumerable<CopilotChatMessage>>(
-                () => this._container.GetItemLinqQueryable<CopilotChatMessage>(true)
-                        .Where(predicate).OrderByDescending(m => m.Timestamp).Skip(skip).Take(count).AsEnumerable());
+            () => this._container.GetItemLinqQueryable<CopilotChatMessage>(true)
+                .Where(predicate).OrderByDescending(m => m.Timestamp).Skip(skip).Take(count).AsEnumerable());
     }
 }

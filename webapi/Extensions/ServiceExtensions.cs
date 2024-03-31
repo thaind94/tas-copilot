@@ -220,6 +220,28 @@ public static class CopilotChatServiceExtensions
                 break;
             }
 
+            case ChatStoreOptions.ChatStoreType.MongoDb:
+            {
+                if(chatStoreConfig.MongoDb == null)
+                {
+                    throw new InvalidOperationException("ChatStore:Mysql is required when ChatStore:Type is 'Mysql'");
+                }
+
+                chatSessionStorageContext = new MongoDbContext<ChatSession>(
+                    chatStoreConfig.MongoDb.ConnectionString, chatStoreConfig.MongoDb.Database,
+                    chatStoreConfig.MongoDb.ChatSessionsCollection);
+                chatMessageStorageContext = new MongoDbChatCopilotChatMessageContext(
+                    chatStoreConfig.MongoDb.ConnectionString, chatStoreConfig.MongoDb.Database,
+                    chatStoreConfig.MongoDb.ChatMessagesCollection);
+                chatMemorySourceStorageContext = new MongoDbContext<MemorySource>(
+                    chatStoreConfig.MongoDb.ConnectionString, chatStoreConfig.MongoDb.Database,
+                    chatStoreConfig.MongoDb.ChatMemorySourcesCollection);
+                chatParticipantStorageContext = new MongoDbContext<ChatParticipant>(
+                    chatStoreConfig.MongoDb.ConnectionString, chatStoreConfig.MongoDb.Database,
+                    chatStoreConfig.MongoDb.ChatParticipantsCollection);
+                break;
+            }
+
             default:
             {
                 throw new InvalidOperationException(

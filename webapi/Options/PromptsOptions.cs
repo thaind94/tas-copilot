@@ -142,12 +142,12 @@ public class PromptsOptions
 
     internal string SystemPersona => string.Join("\n\n", this.SystemPersonaComponents);
 
-    internal double ResponseTemperature { get; } = 0.7;
+    internal double ResponseTemperature { get; } = 0;
     internal double ResponseTopP { get; } = 1;
     internal double ResponsePresencePenalty { get; } = 0.5;
     internal double ResponseFrequencyPenalty { get; } = 0.5;
 
-    internal double IntentTemperature { get; } = 0.7;
+    internal double IntentTemperature { get; } = 0;
     internal double IntentTopP { get; } = 1;
     internal double IntentPresencePenalty { get; } = 0.5;
     internal double IntentFrequencyPenalty { get; } = 0.5;

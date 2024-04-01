@@ -1,7 +1,10 @@
 ﻿// Copyright (c) Microsoft. All rights reserved.
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using CopilotChat.WebApi.Models.Request;
+using Microsoft.SemanticKernel;
 
 namespace CopilotChat.WebApi.Utilities;
 
@@ -43,5 +46,14 @@ internal static class PluginUtils
     public static string SanitizePluginName(string name)
     {
         return name.Replace(" ", string.Empty, StringComparison.OrdinalIgnoreCase);
+    }
+
+    public static Uri BuildUrlWithQueryStringUsingUriBuilder(string basePath, Dictionary<string, string> queryParams)
+    {
+        var uriBuilder = new UriBuilder(basePath)
+        {
+            Query = string.Join("&", queryParams.Select(kvp => $"{kvp.Key}={kvp.Value}"))
+        };
+        return uriBuilder.Uri;
     }
 }

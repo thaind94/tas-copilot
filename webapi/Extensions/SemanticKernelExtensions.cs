@@ -10,6 +10,7 @@ using CopilotChat.WebApi.Hubs;
 using CopilotChat.WebApi.Models.Response;
 using CopilotChat.WebApi.Options;
 using CopilotChat.WebApi.Plugins.Chat;
+using CopilotChat.WebApi.Plugins.Tas;
 using CopilotChat.WebApi.Services;
 using CopilotChat.WebApi.Storage;
 using Microsoft.AspNetCore.Builder;
@@ -69,7 +70,7 @@ internal static class SemanticKernelExtensions
 
         // Add any additional setup needed for the kernel.
         // Uncomment the following line and pass in a custom hook for any complimentary setup of the kernel.
-        // builder.Services.AddKernelSetupHook(customHook);
+        builder.Services.AddKernelSetupHook(TasSetupHook);
 
         return builder;
     }
@@ -194,6 +195,17 @@ internal static class SemanticKernelExtensions
             }
         }
 
+        return Task.CompletedTask;
+    }
+
+    private static Task TasSetupHook(IServiceProvider sp, Kernel kernel)
+    {
+        // Import your plugin into the kernel with the name "MyPlugin"
+        kernel.ImportPluginFromObject(new TasPlugin(
+            sp.GetRequiredService<IHttpClientFactory>()), nameof(TasPlugin));
+
+        // Perform any other setup actions on the kernel
+        // ...
         return Task.CompletedTask;
     }
 

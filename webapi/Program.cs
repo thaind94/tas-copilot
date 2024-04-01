@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Hosting.Server.Features;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Net.Http.Headers;
 
 namespace CopilotChat.WebApi;
 
@@ -68,6 +69,11 @@ public sealed class Program
 
         // Add named HTTP clients for IHttpClientFactory
         builder.Services.AddHttpClient();
+        builder.Services.AddHttpClient("TAS", httpClient =>
+        {
+            httpClient.BaseAddress = new Uri(builder.Configuration["TAS:Endpoint"]);
+            httpClient.DefaultRequestHeaders.Add(HeaderNames.Authorization, builder.Configuration["TAS:Token"]);
+        });
 
         // Add in the rest of the services.
         builder.Services

@@ -108,13 +108,18 @@ public class TasPlugin
      Description("Create a module. Ask user to name the module. Ask user choose email from available email list.")]
     public async Task<string> CreateModule(
         [Description("email to assign as module's owner role")]
-        string email,
+        string email="",
         [Description("Unique name of the module")]
         string moduleName = "")
     {
         if (string.IsNullOrEmpty(moduleName))
         {
             return "Create module failed: Module name is required.";
+        }
+
+        if (string.IsNullOrEmpty(email))
+        {
+            return "Create module failed: Email is required.";
         }
 
         if (!(await ValidateModuleName(moduleName)))

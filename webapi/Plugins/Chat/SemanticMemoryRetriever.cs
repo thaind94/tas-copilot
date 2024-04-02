@@ -146,11 +146,17 @@ public class SemanticMemoryRetriever
         /// </summary>
         async Task SearchMemoryAsync(string memoryName, bool isGlobalMemory = false)
         {
+            var threshold = CalculateRelevanceThreshold(memoryName, chatSession!.MemoryBalance);
+            if (memoryName == this._promptOptions.DocumentMemoryName)
+            {
+                threshold = 0.5f;
+            }
+
             var searchResult =
                 await this._memoryClient.SearchMemoryAsync(
                     this._promptOptions.MemoryIndexName,
                     query,
-                    this.CalculateRelevanceThreshold(memoryName, chatSession!.MemoryBalance),
+                    threshold,
                     isGlobalMemory ? DocumentMemoryOptions.GlobalDocumentChatId.ToString() : chatId,
                     memoryName);
 
